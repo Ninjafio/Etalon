@@ -25,7 +25,7 @@ const Basket = () => {
         email: userLoc.userEmail,
         login: userLoc.userLogin
       })
-      await axios.post("http://localhost:4000/api/story/create", {
+      await axios.post("https://localhost:4000/api/story/create", {
         Record: cart.Record,
         TotalCost: sum
       },
@@ -44,9 +44,9 @@ const Basket = () => {
   React.useEffect(() => {
 
     let summ = 0
-    let cartLocal: Cart = JSON.parse(localStorage.getItem("cart") || "{Record:[]}")
-    if (cartLocal != null) {
-
+    var json=localStorage.getItem("cart") || ""
+    if (json != "") {
+      let cartLocal: Cart = JSON.parse(json)
       setCart(cartLocal)
       if (cartLocal.Record.length > 0) {
         cartLocal.Record.forEach((el) => {

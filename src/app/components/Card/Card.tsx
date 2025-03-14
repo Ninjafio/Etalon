@@ -11,17 +11,31 @@ const Card = ({ id, ImgUrls, article, title, priceDef }: iCard) => {
   const [isShown, setIsShown] = useState(false)
 
   const setCart = () => {
-    let cart: Cart = JSON.parse(localStorage.getItem("cart") || " {Record:[]}")
-    if (cart.Record.length > 0 && cart.Record.find(x => x.id == id) != null) {
-      const cartLenght = cart.Record.length
-      for (let index = 0; index < cartLenght; index++) {
-        if (cart.Record[index].id == id) {
-          cart.Record[index].countProduct++;
+   // let cart: Cart={Record:[]};
+    let json=localStorage.getItem("cart") || "{Record:[]}"
+    let cart: Cart= JSON.parse(json)
+    if (json!="") {
+      if (cart.Record.length > 0 && cart.Record.find(x => x.id == id) != null) {
+        const cartLenght = cart.Record.length
+        for (let index = 0; index < cartLenght; index++) {
+          if (cart.Record[index].id == id) {
+            cart.Record[index].countProduct++;
+          }
+
         }
 
+      } else {
+        const record: CartRecord = {
+          article: article,
+          countProduct: 1,
+          id: id,
+          priceDef: priceDef,
+          title: title,
+  
+        }
+        cart.Record.push(record)
       }
-
-    } else {
+    }else {
       const record: CartRecord = {
         article: article,
         countProduct: 1,
@@ -32,12 +46,15 @@ const Card = ({ id, ImgUrls, article, title, priceDef }: iCard) => {
       }
       cart.Record.push(record)
     }
+    
     localStorage.setItem("cart", JSON.stringify(cart));
+    
   }
+  const url='http://localhost:4000/'+ImgUrls;
   //console.log(ImgUrls)
   return (
     <div className='Card_container'>
-      <Image src={SockImg} alt=''></Image>
+      <Image src={url} alt=''></Image>
       <div className='Card_container_main'>
         <div className="Card_container_main_name">{title}</div>
         <div className="Card_container_main_bottom">
@@ -46,7 +63,7 @@ const Card = ({ id, ImgUrls, article, title, priceDef }: iCard) => {
             <div className="Card_container_main_bottom_left_price">{priceDef} ₽</div>
           </div>
 
-          <Image className='Card_container_main_bottom_left_price_btn' src={CardBasket} alt='' onClick={() => {
+          <Image className='Card_container_main_bottom_left_price_btn' src={url} alt='' onClick={() => {
             setIsShown(true)
             setCart()
           }

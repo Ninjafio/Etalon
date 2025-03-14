@@ -17,7 +17,7 @@ const Registration = () => {
   const [password, setPassword] = useState("");
 
   const RegUser=async () =>{
-    const resRegistration = await axios.post("https://5d41018caf33.hosting.myjino.ru/api/auth/reg/",
+    const resRegistration = await axios.post("https://localhost:4000/api/auth/reg/",
       {
         email:email,
         login:login,
@@ -28,7 +28,7 @@ const Registration = () => {
   }
   const LoginUser=async () =>{
 
-    const resLogin = await axios.post("https://5d41018caf33.hosting.myjino.ru/api/auth/login",
+    const resLogin = await axios.post("https://localhost:4000/api/auth/login",
       {
         email:email,
         login:login,

@@ -16,7 +16,7 @@ const NewProductsBlock = () => {
 
   const [products, setProducts] = useState<Product[]>([])
   const getProducts = async () => {
-    const data: Product[] = await axios.get("https://5d41018caf33.hosting.myjino.ru/api/product/products/", {
+    const data: Product[] = await axios.get("https://localhost:4000/api/product/products/", {
       headers: {
         Authorization: localStorage.getItem('userToken') || "",
         email: localStorage.getItem('userEmail') || "",
