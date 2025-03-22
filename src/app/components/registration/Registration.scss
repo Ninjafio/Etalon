@@ -1,0 +1,105 @@
+.Reg {
+  transition: 0.8s ease-in-out;
+  background-color: #989898;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.Reg.unactive {
+  transform: translateX(1000px);
+  z-index: 100;
+  background-color: #fff;
+  padding-top: 35px;
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-bottom: 70px;
+  border-radius: 35px 0px 0px 35px;
+  right: 0;
+  top: 0;
+  box-shadow: 2px 3px 10px 1px rgba(51, 50, 50, 0.25);
+}
+
+.Reg.active {
+  position: fixed;
+  background-color: #fff;
+  padding-top: 35px;
+  padding-left: 70px;
+  padding-right: 70px;
+  padding-bottom: 70px;
+  border-radius: 35px 0px 0px 35px;
+  z-index: 100;
+  right: 0;
+  top: 0;
+  box-shadow: 2px 3px 10px 1px rgba(51, 50, 50, 0.25);
+  transition: 0.8s ease-in-out;
+}
+
+.Reg_close {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  margin-bottom: 35px;
+}
+
+.Reg_close img {
+  align-self: flex-end;
+  justify-content: flex-end;
+}
+
+.Reg_Title {
+  font-size: 32px;
+  text-align: center;
+}
+
+.registrationPage__form {
+  --authorizationPageBorderRadius: 2rem;
+  --authorizationPageTitleFontSize: 3rem;
+  --authorizationPageTextFontSize: 2rem;
+  position: relative;
+  margin: 5rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  // align-items: center;
+  padding: 15rem;
+  justify-content: center;
+  background-color: var(--colorJet);
+  border-radius: var(--authorizationPageBorderRadius);
+
+  &__title {
+    font-size: var(--authorizationPageTitleFontSize);
+    color: #fff;
+    text-align: center;
+  }
+
+  &__label {
+    font-size: var(--authorizationPageTextFontSize);
+    color: var(--colorWhiteSmoke);
+    height: 100%;
+  }
+
+  &__input {
+    padding: 2rem;
+    font-size: var(--authorizationPageTextFontSize);
+    outline: none;
+    border: none;
+    border-radius: var(--authorizationPageBorderRadius);
+  }
+
+  &__subBtn {
+    font-size: var(--authorizationPageTextFontSize);
+    width: 60%;
+    margin: 4rem auto 0 auto;
+    padding: 2rem 0;
+    background-color: var(--colorPlatinum);
+    color: var(--colorDimGray);
+    border-radius: var(--authorizationPageBorderRadius);
+    text-decoration: none;
+    text-align: center;
+
+    &:hover {
+      background-color: var(--colorSilver);
+    }
+  }
+}

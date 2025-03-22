@@ -1,0 +1,68 @@
+
+
+.Txt_h{
+    max-width: 1273px ;
+    width: 100%;
+    max-height: 718px;
+    height: 100%;
+    background-color: #2c2c2a;
+    margin: auto;
+    border-radius: 45px ;
+    display: flex;
+    gap: 256px;
+    background: url(../../imgs/Union.svg);
+    background-repeat: no-repeat;
+    background-size: cover; 
+    background-position: center; 
+    height: 648px; 
+    
+  }
+  
+  .First{
+    font-size: 18px;
+    font-weight: 400;
+    display: flex;
+    background-color: #fff;
+    max-width: 366px;
+    max-height: 160px;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    margin-left: 69px;
+    margin-top: 70px;
+  }
+  
+  .Second{
+    font-size: 18px;
+    font-weight: 400;
+    display: flex;
+    justify-content:flex-end;
+    background-color: #fff;
+    max-width: 513px;
+    max-height: 195px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    border-radius: 15px;
+    margin-right: 69px;
+    margin-top: 383px;
+  }
+  
+  .Title_h{
+    font-size: 40px;
+    font-weight: 600;
+    margin: auto;
+    margin-left: 323px;
+    margin-top: 80px;
+    margin-bottom: 30px;
+  }
+  
+  .txtInto{
+    margin: 15px 25px 25px 25px;
+    text-align: justify;
+  }
+  
+  .txtInto1{
+    margin: 13px 25px 25px 25px;
+    text-align: justify;
+  }

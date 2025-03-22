@@ -1,0 +1,26 @@
+.InfoBlock{
+    
+    height: 310px !important;
+    width: 410px !important;
+    border-width: 1.5px;
+    border-radius: 16px;
+    box-shadow: 0px 5px 5px 1px rgba(112, 111, 111, 0.25);
+    background-color: #ffffff;
+    margin-bottom: 17px;
+    display: flex;
+    flex-direction: column;
+
+}
+.InfoBlock_title{
+    font-weight: 600;
+    font-size: 24px;
+    padding-top: 20px;
+    padding-left: 35px;
+}
+.InfoBlock_txt{
+    font-weight: 400;
+    font-size: 18px;
+    padding-top: 22px;
+    padding-left: 35px;
+    padding-right: 20px;
+}

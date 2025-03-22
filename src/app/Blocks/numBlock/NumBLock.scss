@@ -1,0 +1,60 @@
+.num_bl {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  font-size: 72px;
+  font-weight: 700;
+  gap: 160px;
+  max-width: 1371px;
+  max-height: 228px;
+  width: 100%;
+  height: 100%;
+}
+
+.companies {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.models {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.qality {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.comp {
+  font-size: 28px;
+  font-weight: 400;
+  max-width: 320px;
+  max-height: 228px;
+  width: 100%;
+  height: 100%;
+}
+
+.mod {
+  font-size: 28px;
+  font-weight: 400;
+  max-width: 320px;
+  max-height: 228px;
+  width: 100%;
+  height: 100%;
+}
+
+.qal {
+  font-size: 28px;
+  font-weight: 400;
+  max-width: 320px;
+  max-height: 228px;
+  width: 100%;
+  height: 100%;
+}

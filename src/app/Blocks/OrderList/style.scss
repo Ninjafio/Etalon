@@ -1,0 +1,77 @@
+.orderList {
+  position: relative;
+  padding: 20px;
+
+  &__title {
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  &__items {
+    &__head {
+      background-color: #f4f4f4;
+
+      &__row {
+        &__item {
+          padding: 10px;
+          font-size: 1.5rem;
+          text-align: left;
+        }
+      }
+    }
+
+    &__body {
+      &__row {
+        &__item {
+          border-bottom: 2px solid #ddd;
+          padding: 10px;
+          font-size: 1.75rem;
+        }
+      }
+    }
+  }
+}
+
+.modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 99;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: -900px;
+  width: 900px;
+  height: 100vh;
+  background: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  z-index: 100;
+  transition: right 0.4s ease-in-out;
+}
+
+.modal--open {
+  right: 0;
+}
+
+.modal__close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}

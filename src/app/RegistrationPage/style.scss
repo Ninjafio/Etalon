@@ -1,0 +1,55 @@
+.registrationPage {
+  --authorizationPageBorderRadius: 2rem;
+  --authorizationPageTitleFontSize: 3rem;
+  --authorizationPageTextFontSize: 2rem;
+
+  &__form {
+    position: relative;
+    margin: 5rem auto;
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    gap: 2rem;
+    // align-items: center;
+    padding: 15rem;
+    justify-content: center;
+    background-color: var(--colorJet);
+    border-radius: var(--authorizationPageBorderRadius);
+
+    &__title {
+      font-size: var(--authorizationPageTitleFontSize);
+      color: #fff;
+      text-align: center;
+    }
+
+    &__label {
+      font-size: var(--authorizationPageTextFontSize);
+      color: var(--colorWhiteSmoke);
+      height: 100%;
+    }
+
+    &__input {
+      padding: 2rem;
+      font-size: var(--authorizationPageTextFontSize);
+      outline: none;
+      border: none;
+      border-radius: var(--authorizationPageBorderRadius);
+    }
+
+    &__subBtn {
+      font-size: var(--authorizationPageTextFontSize);
+      width: 60%;
+      margin: 4rem auto 0 auto;
+      padding: 2rem 0;
+      background-color: var(--colorPlatinum);
+      color: var(--colorDimGray);
+      border-radius: var(--authorizationPageBorderRadius);
+      text-decoration: none;
+      text-align: center;
+
+      &:hover {
+        background-color: var(--colorSilver);
+      }
+    }
+  }
+}

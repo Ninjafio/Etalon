@@ -1,0 +1,71 @@
+.BasketIcon {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
+
+.BasketOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.BasketModal {
+  position: fixed;
+  top: 0;
+  right: -1000px; /* Скрываем за экраном */
+  width: 950px;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+  transition: right 0.3s ease-in-out;
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.BasketModal.active {
+  right: 0; /* Выдвигаем на экран */
+  background-color: rgb(255, 255, 255);
+}
+
+.BasketHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__title {
+    font-size: 32px;
+    color: #000;
+    font-weight: 600;
+  }
+}
+
+.CloseIcon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.EmptyBasket {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.EmptyBasket button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}

@@ -1,0 +1,108 @@
+.authorization {
+  $authorizationTitleFontSize: 4rem;
+  $authorizationTextFontSize: 2rem;
+  &__background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+
+    &--active {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &__modal {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 500px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    transition: right 0.3s ease-in-out;
+    z-index: 1000;
+
+    &--active {
+      right: 0;
+    }
+  }
+
+  &__close {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+
+    &-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #333;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: red;
+      }
+    }
+  }
+
+  &__title {
+    text-align: center;
+    font-size: $authorizationTitleFontSize;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__label {
+      font-weight: bold;
+      font-size: $authorizationTextFontSize;
+    }
+
+    &__input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: $authorizationTextFontSize;
+    }
+
+    &__controls {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+
+      &__subBtn {
+        background-color: #d9d9d9;
+        color: rgb(60, 60, 60);
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: $authorizationTextFontSize;
+
+        &:hover {
+          transition: background 0.3s ease;
+          background-color: #999999;
+          color: rgb(235, 235, 235);
+        }
+      }
+    }
+  }
+}
