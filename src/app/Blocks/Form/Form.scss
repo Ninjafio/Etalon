@@ -1,16 +1,13 @@
 .form_container {
-  flex: auto;
-  // margin-left: 323px;
-  margin: 0 auto;
-  height: 644px;
   border-radius: 45px;
   background-color: #c44536;
   display: flex;
   flex-direction: row;
-  width: 100%;
-  max-width: 1273px;
+  width: 1270px;
+  margin: 0 auto;
   margin-top: 70px;
-  margin-bottom: 217px;
+  margin-bottom: 150px;
+  justify-content: space-around;
 }
 
 .fTitle {
@@ -30,5 +27,41 @@
   font-size: 20px;
 }
 .rform {
-  padding: 120px 63px 120px 63px;
+  padding: 120px 63px;
+}
+
+@media (max-width: 1300px) {
+  .form_container {
+    width: 700px;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 768px) {
+  .form_container {
+    width: 400px;
+  }
+  .fTitle {
+    margin-top: 60px;
+  }
+  .f_Title {
+    font-size: 30px;
+  }
+  .rform {
+    padding: 120px 10px;
+  }
+  .rform {
+    width: 350px;
+    padding: 60px 10px;
+  }
+}
+
+@media (max-width: 420px) {
+  .form_container {
+    width: 100%;
+  }
+
+  .fTitle {
+    margin: 30px auto;
+    padding: 0 20px;
+  }
 }

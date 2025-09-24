@@ -6,6 +6,7 @@ import Image from "next/image";
 import "./Registration.scss";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { UserLocal } from "@/app/types/types";
 
 const Registration = () => {
   const [isRegShown, setIsRegShown] = useState(false);
@@ -48,7 +49,7 @@ const Registration = () => {
         password.length > 5
       ) {
         const resRegistration = await axios.post(
-          "http://localhost:4000/api/auth/reg/",
+          "https://etalon-socks.ru/nest/api/auth/reg/",
           {
             email: email,
             login: login,
@@ -57,17 +58,22 @@ const Registration = () => {
         );
 
         const resLogin = await axios.post(
-          "http://localhost:4000/api/auth/login",
+          "https://etalon-socks.ru/nest/api/auth/login",
           {
             email: email,
             login: login,
             password: password,
           }
         );
-
-        localStorage.setItem("userToken", resLogin.data.acessToken);
-        localStorage.setItem("userEmail", email);
-        localStorage.setItem("userLogin", login);
+        var user: UserLocal={
+          userEmail:email,
+          userLogin:login,
+          userToken:resLogin.data.acessToken
+        }
+        sessionStorage.setItem("user", JSON.stringify(user));
+        // localStorage.setItem("userToken", resLogin.data.acessToken);
+        // localStorage.setItem("userEmail", email);
+        // localStorage.setItem("userLogin", login);
         router.push("/");
       } else {
         alert("Заполните все поля!");
@@ -77,6 +83,9 @@ const Registration = () => {
     }
   };
 
+  const SaveUser=async (acessToken:string) =>{
+   
+  }
   return (
     <div style={{ height: "100%", width: "100%" }}>
       <div

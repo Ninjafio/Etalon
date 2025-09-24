@@ -13,7 +13,7 @@ export class BasketModel {
 
   constructor() {
     this.products = useCartStore.getState();
-    console.log(this.products.products);
+   // console.log(this.products.products);
 
     this.bindEvents();
   }

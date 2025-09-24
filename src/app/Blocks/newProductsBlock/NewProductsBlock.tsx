@@ -1,354 +1,234 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import React, { useEffect, useRef, useState } from "react";
 import "./NewProductsBlock.scss";
 import Card from "@/app/components/Card/Card";
-import { ArrowBack, ArrowUp, Filter_Arrow } from "@/app/imgs/imgIndex/imgIndex";
+import { Filter_Arrow } from "@/app/imgs/imgIndex/imgIndex";
 import Image from "next/image";
-import { cardsInfo } from "./constants";
-import { CardModel } from "@/app/components/Card/model/index";
 import axios from "axios";
 import { IProduct } from "@/app/types/interface";
 
-const NewProductsBlock = () => {
-  const [mode, setMode] = useState<string>("all");
-  const [filter, setFilter] = useState<string>("");
-  const [showMore, setShowMore] = useState<boolean>(false);
+interface Checkbox {
+    name: string;
+    isChecked: boolean;
+}
 
-  const [filtersOpen, setIsFiltersOpen] = useState(false);
+interface SizeCheckbox extends Checkbox {
+    min: number;
+    max: number;
+}
 
-  useEffect(() => {
-    new CardModel();
-  });
+const NewProductsBlock: React.FC = () => {
+    const [products, setProducts] = useState<IProduct[]>([]);
+    const [filtered, setFiltered] = useState<IProduct[]>([]);
+    const [categories, setCategories] = useState<string[]>([]);
+    const [mode, setMode] = useState<string>("все");
 
-  const ChooseColor = () => {
-    setFilter("color");
-  };
+    const [types, setTypes] = useState<Checkbox[]>([]);
+    const [colors, setColors] = useState<Checkbox[]>([]);
+    const [sizes, setSizes] = useState<SizeCheckbox[]>([]);
 
-  const ChooseSize = () => {
-    setFilter("size");
-  };
+    const [filtersOpen, setFiltersOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const ChooseType = () => {
-    setFilter("type");
-  };
-  const [products, setProducts] = useState<IProduct[]>([])
-    const getProducts = async () => {
-      const data: IProduct[] = await axios.get("http://localhost:4000/api/product/products/", {
-        headers: {
-          Authorization: localStorage.getItem('userToken') || "",
-          email: localStorage.getItem('userEmail') || "",
-          login: localStorage.getItem('userLogin') || "",
-        }
-      }).then(res => res.data)
-      console.log(data)
-      setProducts(data)
-    }
-    React.useEffect(() => {
+    // Загрузка
+    useEffect(() => {
+        (async () => {
+            const prods = await axios
+                .get<IProduct[]>("https://etalon-socks.ru/nest/api/product/products/", {
+                    headers: {
+                        Authorization: sessionStorage.getItem("userToken") || "",
+                        email: sessionStorage.getItem("userEmail") || "",
+                        login: sessionStorage.getItem("userLogin") || "",
+                    },
+                })
+                .then((r) => r.data);
+            setProducts(prods);
+            setFiltered(prods);
 
-      getProducts()
+            const cats = await axios
+                .get<{ name: string }[]>("https://etalon-socks.ru/nest/api/category/categories/", {
+                    headers: {
+                        Authorization: sessionStorage.getItem("userToken") || "",
+                        email: sessionStorage.getItem("userEmail") || "",
+                        login: sessionStorage.getItem("userLogin") || "",
+                    },
+                })
+                .then((r) => r.data);
+            setCategories(["все", ...cats.map((c) => c.name)]);
+
+            const cols = await axios
+                .get<{ name: string }[]>("https://etalon-socks.ru/nest/api/color/colors/", {
+                    headers: {
+                        Authorization: sessionStorage.getItem("userToken") || "",
+                        email: sessionStorage.getItem("userEmail") || "",
+                        login: sessionStorage.getItem("userLogin") || "",
+                    },
+                })
+                .then((r) => r.data);
+            setColors(cols.map((c) => ({ name: c.name, isChecked: false })));
+
+            const tps = await axios
+                .get<{ name: string }[]>("https://etalon-socks.ru/nest/api/typesocks/typesocks/", {
+                    headers: {
+                        Authorization: sessionStorage.getItem("userToken") || "",
+                        email: sessionStorage.getItem("userEmail") || "",
+                        login: sessionStorage.getItem("userLogin") || "",
+                    },
+                })
+                .then((r) => r.data);
+            setTypes(tps.map((t) => ({ name: t.name, isChecked: false })));
+
+            setSizes([
+                { name: "35-40", isChecked: false, min: 35, max: 40 },
+                { name: "41-43", isChecked: false, min: 41, max: 43 },
+                { name: "44-46", isChecked: false, min: 44, max: 46 },
+                { name: "46-48", isChecked: false, min: 46, max: 48 },
+            ]);
+        })();
     }, []);
 
-  return (
-    <div className="NewProductsBlock" id="NewProductsBlock">
-      <div className="NewProductsBlock_header">
-        <div className="NewProductsBlock_header_left">
-          <div
-            className={`NewProductsBlock_header_left_filters ${
-              filtersOpen ? " clicked" : ""
-            }`}
-          >
-            <button onClick={() => setIsFiltersOpen(!filtersOpen)}>
-              фильтры
-              {filtersOpen ? (
-                <Image src={ArrowUp} alt=""></Image>
-              ) : (
-                <Image src={ArrowBack} alt=""></Image>
-              )}
-            </button>
-            <div
-              className={`NewProductsBlock_header_left_filters_filters ${
-                filtersOpen ? "" : "off"
-              }`}
-            >
-              <div className="NewProductsBlock_header_left_filters_filters_container">
-                <div className="NewProductsBlock_header_left_filters_filters_top">
-                  Фильтры
-                  <p className="NewProductsBlock_header_left_filters_filters_top_additional">
-                    Сбросить все
-                  </p>
-                </div>
-                <div
-                  className="NewProductsBlock_header_left_filters_filters_type"
-                  onClick={() => ChooseType()}
-                >
-                  тип товара
-                  <Image src={Filter_Arrow} alt=""></Image>
-                </div>
-                <div
-                  className="NewProductsBlock_header_left_filters_filters_color"
-                  onClick={() => ChooseColor()}
-                >
-                  цвет
-                  <Image src={Filter_Arrow} alt=""></Image>
+    // Закрываем дропдаун кликом вне
+    useEffect(() => {
+        const handler = (e: MouseEvent) => {
+            if (
+                filtersOpen &&
+                dropdownRef.current &&
+                !dropdownRef.current.contains(e.target as Node)
+            ) {
+                setFiltersOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handler);
+        return () => document.removeEventListener("mousedown", handler);
+    }, [filtersOpen]);
+
+    // Применить фильтры
+    const applyFilters = () => {
+        let res = products;
+
+        if (mode !== "все") {
+            res = res.filter((p) => p.category.name === mode);
+        }
+        const selTypes = types.filter((t) => t.isChecked).map((t) => t.name);
+        if (selTypes.length) res = res.filter((p) => selTypes.includes(p.typesocks.name));
+
+        const selCols = colors.filter((c) => c.isChecked).map((c) => c.name);
+        if (selCols.length) res = res.filter((p) => selCols.includes(p.colorsocks.name));
+
+        const selSizes = sizes.filter((s) => s.isChecked);
+        if (selSizes.length)
+            res = res.filter((p) =>
+                selSizes.some((sz) => p.min >= sz.min && p.max <= sz.max)
+            );
+
+        setFiltered(res);
+        setFiltersOpen(false);
+    };
+
+    return (
+        <div className="NewProductsBlock">
+            <div className="header">
+                <div className="filters-wrapper" ref={dropdownRef}>
+                    <button
+                        className="filter-button"
+                        onClick={() => setFiltersOpen((v) => !v)}
+                    >
+                        Фильтры <Image src={Filter_Arrow} alt="" />
+                    </button>
+                    {filtersOpen && (
+                        <div className="filter-dropdown">
+                            <div className="filter-section">
+                                <h4>Тип товара</h4>
+                                {types.map((t, i) => (
+                                    <label key={i}>
+                                        <input
+                                            type="checkbox"
+                                            checked={t.isChecked}
+                                            onChange={() =>
+                                                setTypes((arr) =>
+                                                    arr.map((x, j) =>
+                                                        j === i ? { ...x, isChecked: !x.isChecked } : x
+                                                    )
+                                                )
+                                            }
+                                        />
+                                        {t.name}
+                                    </label>
+                                ))}
+                            </div>
+                            <div className="filter-section">
+                                <h4>Цвет</h4>
+                                {colors.map((c, i) => (
+                                    <label key={i}>
+                                        <input
+                                            type="checkbox"
+                                            checked={c.isChecked}
+                                            onChange={() =>
+                                                setColors((arr) =>
+                                                    arr.map((x, j) =>
+                                                        j === i ? { ...x, isChecked: !x.isChecked } : x
+                                                    )
+                                                )
+                                            }
+                                        />
+                                        {c.name}
+                                    </label>
+                                ))}
+                            </div>
+                            <div className="filter-section">
+                                <h4>Размер</h4>
+                                {sizes.map((s, i) => (
+                                    <label key={i}>
+                                        <input
+                                            type="checkbox"
+                                            checked={s.isChecked}
+                                            onChange={() =>
+                                                setSizes((arr) =>
+                                                    arr.map((x, j) =>
+                                                        j === i ? { ...x, isChecked: !x.isChecked } : x
+                                                    )
+                                                )
+                                            }
+                                        />
+                                        {s.name}
+                                    </label>
+                                ))}
+                            </div>
+                            <button className="apply-btn" onClick={applyFilters}>
+                                Применить
+                            </button>
+                        </div>
+                    )}
                 </div>
 
-                <div
-                  className="NewProductsBlock_header_left_filters_filters_size"
-                  onClick={() => ChooseSize()}
-                >
-                  размер
-                  <Image src={Filter_Arrow} alt=""></Image>
+                <div className="categories">
+                    {categories.map((cat) => (
+                        <div
+                            key={cat}
+                            className={`cat-btn ${mode === cat ? "active" : ""}`}
+                            onClick={() => setMode(cat)}
+                        >
+                            {cat}
+                        </div>
+                    ))}
                 </div>
-                <div className="NewProductsBlock_header_left_filters_filters_btn">
-                  <button>применить</button>
-                </div>
-              </div>
             </div>
 
-            <div
-              className={`NewProductsBlock_header_left_filters_filters_additional_type ${
-                filtersOpen && filter === "type" ? "" : "off"
-              }`}
-            >
-              <div className="NewProductsBlock_header_left_filters_filters_additional_type_container">
-                <div className="NewProductsBlock_header_left_filters_filters_additional_type_top">
-                  <div className="NewProductsBlock_header_left_filters_filters_additional_type_top_left">
-                    <Image
-                      src={ArrowBack}
-                      alt=""
-                      onClick={() => setFilter("")}
+            <div className="grid">
+                {filtered.map((p) => (
+                    <Card
+                        key={p.id}
+                        id={p.id}
+                        title={p.title}
+                        article={p.article}
+                        priceDef={p.priceDef}
+                        ImgUrls={p.ImgUrls}
                     />
-                    Тип товара
-                  </div>
-                  <p className="NewProductsBlock_header_left_filters_filters_additional_type_top_additional">
-                    Сбросить все
-                  </p>
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_type_el">
-                  <label form="socks">Носки</label>
-                  <input type="checkbox" id="socks" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_type_el">
-                  <label form="golfs">Гольфы</label>
-                  <input type="checkbox" id="golfs" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_type_el">
-                  <label form="thigs">Чулки</label>
-                  <input type="checkbox" id="thighs" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_type_btn">
-                  <button>применить</button>
-                </div>
-              </div>
+                ))}
             </div>
-
-            <div
-              className={`NewProductsBlock_header_left_filters_filters_additional_size ${
-                filtersOpen && filter === "size" ? "" : "off"
-              }`}
-            >
-              <div className="NewProductsBlock_header_left_filters_filters_additional_size_container">
-                <div className="NewProductsBlock_header_left_filters_filters_additional_size_top">
-                  <div className="NewProductsBlock_header_left_filters_filters_additional_type_top_left">
-                    <Image
-                      src={ArrowBack}
-                      alt=""
-                      onClick={() => setFilter("")}
-                    ></Image>
-                    Размер
-                  </div>
-                  <p className="NewProductsBlock_header_left_filters_filters_additional_size_top_additional">
-                    Сбросить все
-                  </p>
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_size_el">
-                  <label form="35-40">35-40</label>
-                  <input type="checkbox" id="35-40" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_size_el">
-                  <label form="41-43">41-43</label>
-                  <input type="checkbox" id="41-43" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_size_el">
-                  <label form="44-46">44-46</label>
-                  <input type="checkbox" id="45-46" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_size_el">
-                  <label form="46-48">41-43</label>
-                  <input type="checkbox" id="46-48" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_size_btn">
-                  <button>применить</button>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`NewProductsBlock_header_left_filters_filters_additional_color ${
-                filtersOpen && filter === "color" ? "" : "off"
-              }`}
-            >
-              <div className="NewProductsBlock_header_left_filters_filters_additional_color_container">
-                <div className="NewProductsBlock_header_left_filters_filters_additional_color_top">
-                  <div className="NewProductsBlock_header_left_filters_filters_additional_type_top_left">
-                    <Image
-                      src={ArrowBack}
-                      alt=""
-                      onClick={() => setFilter("")}
-                    ></Image>
-                    Цвет
-                  </div>
-                  <p className="NewProductsBlock_header_left_filters_filters_additional_color_top_additional">
-                    Сбросить все
-                  </p>
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_color_el">
-                  <label form="black">Черный</label>
-                  <input type="checkbox" id="black" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_color_el">
-                  <label form="white">Белый</label>
-                  <input type="checkbox" id="white" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_color_el">
-                  <label form="grey">Серый</label>
-                  <input type="checkbox" id="grey" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_color_el">
-                  <label form="blue">Синий</label>
-                  <input type="checkbox" id="blue" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_color_el">
-                  <label form="green">Зеленый</label>
-                  <input type="checkbox" id="green" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_color_el">
-                  <label form="yarkiy">Яркий</label>
-                  <input type="checkbox" id="yarkiy" />
-                </div>
-
-                <div className="NewProductsBlock_header_left_filters_filters_additional_color_el">
-                  <label form="symbols">С узором</label>
-                  <input type="checkbox" id="symbols" />
-                </div>
-
-                <button
-                  className="NewProductsBlock_header_left_filters_filters_additional_color_btn"
-                  onClick={() => console.log(filtersOpen)}
-                >
-                  применить
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
-        <div className="NewProductsBlock_header_right">
-          <div
-            className={`NewProductsBlock_header_right_filterBtn ${
-              mode === "all" ? "active" : ""
-            }`}
-            onClick={() => setMode("all")}
-          >
-            все
-          </div>
-          <div
-            className={`NewProductsBlock_header_right_filterBtn ${
-              mode === "male" ? "active" : ""
-            }`}
-            onClick={() => setMode("male")}
-          >
-            женские
-          </div>
-          <div
-            className={`NewProductsBlock_header_right_filterBtn ${
-              mode === "female" ? "active" : ""
-            }`}
-            onClick={() => setMode("female")}
-          >
-            мужские
-          </div>
-          <div
-            className={`NewProductsBlock_header_right_filterBtn ${
-              mode === "child" ? "active" : ""
-            }`}
-            onClick={() => setMode("child")}
-          >
-            детские
-          </div>
-        </div>
-      </div>
-
-      <div className="NewProductsBlock_container">
-        {!showMore ? (
-          <div className={`NewProductsBlock_container `}>
-            <div
-              className={`NewProductsBlock_container_background ${
-                filtersOpen ? "background_active" : ""
-              }`}
-            ></div>
-            {products.map(
-              (item, key) =>
-                key <= 7 && (
-                  <Card
-                    key={key}
-                    id={item.id}
-                    article={item.article}
-                    title={item.title}
-                    priceDef={item.priceDef}
-                    ImgUrls={item.ImgUrls}
-                  />
-                )
-            )}
-          </div>
-        ) : (
-          <div className={`NewProductsBlock_container `}>
-            <div
-              className={`NewProductsBlock_container_background ${
-                filtersOpen ? "background_active" : ""
-              }`}
-            ></div>
-            {products.map((item, key) => {
-              return  (
-                <Card
-                  key={key}
-                  id={item.id}
-                  article={item.article}
-                  title={item.title}
-                  priceDef={item.priceDef}
-                  ImgUrls={item.ImgUrls}
-                />
-              );
-            })}
-          </div>
-        )}
-      </div>
-      <div className="NewProductsBlock_buttonBlock">
-        <div
-          onClick={() => setShowMore(true)}
-          className={
-            showMore ? "NewProductsBlock_btn_off" : "NewProductsBlock_btn"
-          }
-        >
-          Показать еще
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default NewProductsBlock;

@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import Head from 'next/head';
+//import { Logo1 } from "@/app/imgs/imgIndex/imgIndex";
+
+import Logo1 from "../app/imgs/logo2.svg"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -16,6 +20,7 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Носочная фабрика Эталон",
   description: "Эталон",
+  icons:[Logo1.src],
 };
 
 export default function RootLayout({

@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
+import { UserLocal } from "@/app/types/types";
 
 export const RegisterUserPage = () => {
   // const [user,userToken]=useUnit([$user,$userToken]);
@@ -25,7 +26,7 @@ export const RegisterUserPage = () => {
         passwordConfirm !== null
       ) {
         const resRegistration = await axios.post(
-          "http://localhost:4000/api/auth/reg/",
+          "https://etalon-socks.ru/nest/api/auth/reg/",
           {
             email: email,
             login: login,
@@ -34,18 +35,24 @@ export const RegisterUserPage = () => {
         );
 
         const resLogin = await axios.post(
-          "http://localhost:4000/api/auth/login",
+          "https://etalon-socks.ru/nest/api/auth/login",
           {
             email: email,
             login: login,
             password: password,
           }
         );
+        var user: UserLocal={
+          userEmail:email,
+          userLogin:login,
+          userToken:resLogin.data.acessToken
+        }
+        sessionStorage.setItem("user", JSON.stringify(user));
 
-        localStorage.setItem("userToken", resLogin.data.acessToken);
-        localStorage.setItem("userEmail", email);
-        localStorage.setItem("userLogin", login);
-        return navigate("/product");
+        // localStorage.setItem("userToken", resLogin.data.acessToken);
+        // localStorage.setItem("userEmail", email);
+        // localStorage.setItem("userLogin", login);
+        return navigate("/");
       } else {
         alert("Заполните все поля!");
       }

@@ -13,24 +13,21 @@ export const useCartStore = create<ICartStore>()(
       products: [],
       orders: [],
 
-      addProduct: (product) =>
-        set((state) => {
-          const existingProduct = state.products.find(
-            (p) => p.id === product.id
-          );
-          if (existingProduct) {
-            return {
-              products: state.products.map((p) =>
-              {
-                console.log(p.countProduct)
-                return p.id === product.id ? { ...p, countProduct: p.countProduct + 1 } : p
-              }
-                
-              ),
-            };
-          }
-          return { products: [...state.products, { ...product, countProduct: 1 }] };
-        }),
+        addProduct: (product) =>
+            set((state) => {
+                const existing = state.products.find(p => p.id === product.id);
+                if (existing) {
+                    return {
+                        products: state.products.map(p =>
+                            p.id === product.id
+                                ? { ...p, countProduct: p.countProduct + 1 }
+                                : p
+                        )
+                    };
+                }
+                // новый товар: гарантировано имеет ImgUrls
+                return { products: [...state.products, product] };
+            }),
 
       removeProduct: (id) =>
         set((state) => ({

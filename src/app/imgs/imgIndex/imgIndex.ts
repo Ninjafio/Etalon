@@ -1,4 +1,5 @@
 import Logo from "../Logo.svg"
+import Logo1 from "../Logo1.png"
 import User from "../User.svg"
 import Card1 from "../Card1.png"
 import card2 from "../card2.png"
@@ -34,6 +35,7 @@ import SockImg from "../sock.png"
 export {
     
     Logo,
+    Logo1,
     User,
     Card1,
     card2,

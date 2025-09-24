@@ -2,8 +2,6 @@
   display: flex;
   justify-content: center;
   padding: 47px;
-  height: 415px;
-  max-width: 580px;
   width: 100%;
   background: #f5f5f5;
   border-radius: 16px;
@@ -53,4 +51,63 @@ input {
 #consentCheckbox {
   width: 20px;
   border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+  .back_form {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+    background: #f5f5f5;
+    border-radius: 16px;
+  }
+  .input_ {
+    height: 52px;
+    background: #fff;
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px 1px rgba(143, 143, 143, 0.25);
+    font-weight: 400;
+    font-size: 16px;
+  }
+
+  .button {
+    height: 52px;
+    border: 2px;
+    background: #2d2d2d;
+    width: 100%;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 400;
+    font-size: 20px;
+    margin-top: 34px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+}
+
+@media (max-width: 768px) {
+  .input_ {
+    width: 300px;
+  }
+  .space-y-2 {
+    width: 300px;
+  }
+  .button {
+    width: 300px;
+  }
+}
+
+@media (max-width: 420px) {
+  .input_ {
+    width: 250px;
+  }
+  .space-y-2 {
+    width: 250px;
+  }
+  .button {
+    width: 250px;
+  }
 }

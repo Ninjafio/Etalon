@@ -1,24 +1,33 @@
 .footer-container {
-  height: 350px;
+  // height: 350px;
   background-color: #2c2c2a;
   border-top-left-radius: 45px;
   border-top-right-radius: 45px;
-  max-width: 1920px;
+  // max-width: 1920px;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 164px;
-  justify-content: center;
+  // display: flex;
+  // flex-direction: column;
+  // gap: 164px;
+  // justify-content: center;
 }
 
 .foot {
-  margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 120px 10px 20px 10px;
 }
 
 .footer_1 {
+  margin: 30px;
   display: flex;
   flex-direction: row;
-  gap: 164px;
+  flex-wrap: wrap;
+  gap: 120px;
+  width: 100%;
+  justify-content: center;
 }
 
 .column_1 {
@@ -45,12 +54,6 @@
   color: #ececec;
 }
 
-.txt_3 {
-  font-size: 16px;
-  font-weight: 700;
-  color: #ececec;
-}
-
 .column_2 {
   font-size: 16px;
   font-weight: 400;
@@ -60,41 +63,32 @@
   gap: 15px;
 }
 
-.column_3 {
-  font-size: 16px;
-  font-weight: 400;
-  color: #ececec;
+
+
+.parts {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.catalog_parts {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.main_parts {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
 
 .footer_2 {
   margin-top: 32px;
-  color: #ececec;
-  font-size: 13px;
-  font-weight: 400;
-  display: flex;
-  flex-direction: row;
-  gap: 230px;
+    color: #ececec;
+    font-size: 13px;
+    font-weight: 400;
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .contacts {
   display: flex;
   flex-direction: row;
   gap: 46px;
+  flex-wrap: wrap;
 }
 
 .map_bl {

@@ -1,12 +1,14 @@
 .Title{
+    margin: 0 auto;
     margin-top: 80px;
-    margin-left: 323px;
+    text-align: left;
     font-size: 40px;
     font-weight: 600;
+    max-width: 1240px;
 }
 .partners_container{
-    padding-left: 324px;
-    padding-right: 324px;
+    // padding-left: 324px;
+    // padding-right: 324px;
     padding-top: 30px;
 }
 
@@ -20,12 +22,17 @@
 }
 
 .RunningBlock_runningLine {
-    padding-left: 324px;
-    padding-right: 324px;
+    padding: 0 150px;
 }
 
 .F {
     -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     box-shadow: none !important;
+}
+
+@media (max-width: 700px) {
+    .RunningBlock_runningLine {
+    padding: 0 50px;
+}
 }

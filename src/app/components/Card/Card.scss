@@ -1,49 +1,53 @@
-.Card_container{
+.Card_container {
     display: flex;
     flex-direction: column;
     width: 305px;
-    -webkit-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.2);
--moz-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.2);
-box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.2);
-border-radius: 20px;
-transition: .3s;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: background .3s;
 }
-.Card_container:hover{
-    background-color: #ececec;
+.Card_container:hover {
+    background-color: #f0f0f0;
 }
 
-.Card_container_main{
-    padding-top: 30px;
-    padding-bottom: 30px;
-    padding-left: 20px;
-    padding-right: 20px;
+.Card_container_img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.Card_container_main {
+    padding: 20px;
     display: flex;
     flex-direction: column;
 }
 
-.Card_container_main_bottom{
+.Card_container_main_name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.Card_container_main_bottom {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
-.Card_container_main_bottom_left{
+.Card_container_main_bottom_left {
 }
 
-.Card_container_main_bottom_left_id{
+.Card_container_main_bottom_left_id {
     font-size: 13px;
+    color: #555;
 }
 
-.Card_container_main_bottom_left_price{
+.Card_container_main_bottom_left_price {
     font-size: 20px;
-    font-weight: bolder;
-}
-
-.Card_container_main_name{
-    font-size: 20px;
-    font-weight: bolder;
-    padding-bottom: 12px;
-    max-width: 266px;
+    font-weight: bold;
+    color: #000;
 }
 
 .Card_container_main_bottom_left_price_btn {

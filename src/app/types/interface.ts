@@ -18,6 +18,7 @@ export interface ICartRecord {
   priceDef: number;
   article: string;
   countProduct: number;
+  ImgUrls: string;          // ← добавили поле
 }
 
 export interface IProduct {
@@ -27,6 +28,26 @@ export interface IProduct {
   article: string;
   inStock: number;
   ImgUrls: string;
+  category: ICategory;
+  colorsocks: IColor;
+  typesocks: IType;
+  min: number;
+  max: number;
+}
+
+export interface ICategory {
+  id: string;
+  name: string;
+}
+
+export interface IColor {
+  id: string;
+  name: string;
+}
+
+export interface IType {
+  id: string;
+  name: string;
 }
 
 export interface IOrder {

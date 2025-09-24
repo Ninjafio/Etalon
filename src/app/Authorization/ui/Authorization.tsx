@@ -1,3 +1,4 @@
+// File: /root/etalon/src/app/Authorization/ui/Authorization.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -6,14 +7,13 @@ import { useRouter } from "next/navigation";
 import "../style.scss";
 import { User } from "@/app/imgs/imgIndex/imgIndex";
 import Image from "next/image";
+import { UserLocal } from "@/app/types/types";
 
 interface AuthorizationProps {
   onLoginSuccess: () => void;
 }
 
-export const Authorization: React.FC<AuthorizationProps> = ({
-  onLoginSuccess,
-}) => {
+const Authorization: React.FC<AuthorizationProps> = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState<string>("");
   const [login, setLogin] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -22,17 +22,29 @@ export const Authorization: React.FC<AuthorizationProps> = ({
 
   const LoginUserForm = async () => {
     try {
-      const res = await axios.post("http://localhost:4000/api/auth/login", {
-        email: email,
-        login: login,
-        password: password,
-      });
+      const res = await axios.post(
+          "https://etalon-socks.ru/nest/api/auth/login",
+          {
+            email,
+            login,
+            password,
+          }
+      );
 
-      localStorage.setItem("userToken", res.data.acessToken);
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("userLogin", login);
+      const token = res.data.acessToken;
+      const user: UserLocal = {
+        userEmail: email,
+        userLogin: login,
+        userToken: token,
+      };
 
-      onLoginSuccess(); // Вызываем функцию обновления состояния
+      // сохраняем в sessionStorage
+      sessionStorage.setItem("userEmail", email);
+      sessionStorage.setItem("userLogin", login);
+      sessionStorage.setItem("userToken", `Bearer ${token}`);
+      sessionStorage.setItem("user", JSON.stringify(user));
+
+      onLoginSuccess();
       router.push("/");
     } catch (e) {
       alert("Неудачная авторизация! Попробуйте еще раз");
@@ -40,78 +52,92 @@ export const Authorization: React.FC<AuthorizationProps> = ({
   };
 
   return (
-    <>
-      {/* Кнопка открытия модального окна */}
-      <Image src={User} alt="" onClick={() => setIsAuthOpen(true)} />
+      <>
+        {/* Кнопка открытия */}
+        <Image
+            src={User}
+            alt="Войти"
+            width={60}
+            height={60}
+            onClick={() => setIsAuthOpen(true)}
+            style={{ cursor: "pointer" }}
+        />
 
-      {/* Затемненный фон */}
-      <div
-        className={`authorization__background ${
-          isAuthOpen ? "authorization__background--active" : ""
-        }`}
-        onClick={() => setIsAuthOpen(false)}
-      ></div>
-
-      {/* Само модальное окно */}
-      <div
-        className={`authorization__modal ${
-          isAuthOpen ? "authorization__modal--active" : ""
-        }`}
-      >
-        <div className="authorization__close">
-          <button
-            className="authorization__close-btn"
+        {/* Затемнённый фон */}
+        <div
+            className={`authorization__background ${
+                isAuthOpen ? "authorization__background--active" : ""
+            }`}
             onClick={() => setIsAuthOpen(false)}
-          >
-            ✖
-          </button>
-        </div>
-        <h1 className="authorization__title">Авторизация</h1>
-        <form className="authorization__form">
-          <label className="authorization__form__label">Почта</label>
-          <input
-            className="authorization__form__input"
-            type="email"
-            placeholder="Email"
-            required
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        />
 
-          <label className="authorization__form__label">Логин</label>
-          <input
-            className="authorization__form__input"
-            type="text"
-            placeholder="Логин"
-            required
-            onChange={(e) => setLogin(e.target.value)}
-          />
-
-          <label className="authorization__form__label">Пароль</label>
-          <input
-            className="authorization__form__input"
-            type="password"
-            placeholder="Пароль"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          <div className="authorization__form__controls">
+        {/* Модалка */}
+        <div
+            className={`authorization__modal ${
+                isAuthOpen ? "authorization__modal--active" : ""
+            }`}
+        >
+          <div className="authorization__close">
             <button
-              type="button"
-              className="authorization__form__controls__subBtn"
-              onClick={LoginUserForm}
+                className="authorization__close-btn"
+                onClick={() => setIsAuthOpen(false)}
             >
-              Войти
+              ✖
             </button>
-            <a
-              href="/RegistrationPage"
-              className="authorization__form__controls__subBtn"
-            >
-              Зарегистрироваться
-            </a>
           </div>
-        </form>
-      </div>
-    </>
+
+          <h1 className="authorization__title">Авторизация</h1>
+
+          <form className="authorization__form" onSubmit={(e) => e.preventDefault()}>
+            <label className="authorization__form__label">Почта</label>
+            <input
+                className="authorization__form__input"
+                type="email"
+                placeholder="Email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+
+            <label className="authorization__form__label">Логин</label>
+            <input
+                className="authorization__form__input"
+                type="text"
+                placeholder="Логин"
+                required
+                value={login}
+                onChange={(e) => setLogin(e.target.value)}
+            />
+
+            <label className="authorization__form__label">Пароль</label>
+            <input
+                className="authorization__form__input"
+                type="password"
+                placeholder="Пароль"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <div className="authorization__form__controls">
+              <button
+                  type="button"
+                  className="authorization__form__controls__subBtn"
+                  onClick={LoginUserForm}
+              >
+                Войти
+              </button>
+              <a
+                  href="/RegistrationPage"
+                  className="authorization__form__controls__subBtn"
+              >
+                Зарегистрироваться
+              </a>
+            </div>
+          </form>
+        </div>
+      </>
   );
 };
+
+export default Authorization;

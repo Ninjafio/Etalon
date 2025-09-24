@@ -1,35 +1,24 @@
 .AboutBlock_title {
-  margin-top: 70px;
+  margin: 0 auto;
+  margin-top: 80px;
   margin-bottom: 30px;
-  margin-left: 323px;
   font-size: 40px;
   font-weight: 600;
+  text-align: left;
+  max-width: 1240px;
 }
-
-.card_container1 {
+.card_container {
   //   margin-left: 323px;
-  margin: 0 auto;
   display: flex;
   flex-direction: row;
-  gap: 17px;
+  flex-wrap: wrap;
   width: 100%;
-  max-width: 1273px;
+  justify-content: center;
+  gap: 20px;
 }
-
-.card_container2 {
-  margin: 0 auto;
-  display: flex;
-  flex-direction: row;
-  gap: 17px;
-  width: 100%;
-  max-width: 1273px;
-}
-
-.InfoBlock1 {
-  height: 310px !important;
-  width: 413px !important;
-  border-radius: 16px;
-  margin-bottom: 17px;
-  display: flex;
-  flex-direction: column;
-}
+// .InfoBlock1 {
+//   border-radius: 16px;
+//   margin: 15px;
+//   display: flex;
+//   flex-direction: column;
+// }
